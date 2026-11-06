@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulasi CAT Ujian Dinas Tingkat I: 100 soal, 90 menit, dua paket, penilaian dan pembahasan.">
+  <title>Simulasi CAT Ujian Dinas Tingkat I</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
+          <rect x="2" y="2" width="28" height="28" rx="8" fill="#f4b942"/>
+          <path d="M10 22V10h7.2c3 0 5 1.6 5 4.3 0 1.8-.9 3.1-2.5 3.8l3.1 3.9h-4l-2.6-3.4h-2.4V22H10Zm3.7-6.3h3.1c1.2 0 2-.6 2-1.5 0-1-.8-1.5-2-1.5h-3.1v3Z" fill="#0b2d4f"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-kicker">Simulasi CAT</span>
+        <span class="brand-title">Ujian Dinas Tingkat I</span>
+      </span>
+    </div>
+    <span class="header-tag">Latihan mandiri · 100 soal · 90 menit</span>
+  </header>
+
+  <main id="main">
+    <!-- ================= BERANDA ================= -->
+    <section id="screen-home" class="screen" aria-labelledby="home-title">
+      <div id="resume-banner" class="resume-banner" hidden>
+        <div class="resume-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <div class="resume-copy">
+          <strong>Sesi ujian belum selesai</strong>
+          <p id="resume-summary">Ada sesi yang dapat dilanjutkan.</p>
+        </div>
+        <div class="resume-actions">
+          <button id="btn-resume" class="btn btn-primary btn-sm" type="button">Lanjutkan</button>
+          <button id="btn-discard" class="btn btn-ghost btn-sm" type="button">Mulai Baru</button>
+        </div>
+      </div>
+
+      <div class="home-grid">
+        <div class="home-main">
+          <div class="hero">
+            <p class="eyebrow">Gladi bersih ujian dinas</p>
+            <h1 id="home-title">Latihan CAT dengan format ujian yang sebenarnya.</h1>
+            <p class="hero-lead">Seratus soal, sembilan puluh menit, dua paket setara, dan penilaian sesuai ambang batas resmi. Tanpa akun, tanpa instalasi.</p>
+            <div class="rule-grid">
+              <div class="rule-card"><span class="rule-value">100</span><span class="rule-label">soal pilihan ganda</span></div>
+              <div class="rule-card"><span class="rule-value">90</span><span class="rule-label">menit total</span></div>
+              <div class="rule-card"><span class="rule-value">5</span><span class="rule-label">poin per jawaban benar</span></div>
+              <div class="rule-card"><span class="rule-value">210</span><span class="rule-label">total minimum bila lulus tipis</span></div>
+            </div>
+            <div class="threshold-line">
+              <span>Ambang batas:</span>
+              <span class="chip chip-twk">TWK ≥ 100</span>
+              <span class="chip chip-tpu">TPU ≥ 75</span>
+              <span class="chip chip-tsi">TSI ≥ 35</span>
+            </div>
+          </div>
+
+          <section class="card history-card" aria-labelledby="history-title">
+            <div class="card-head">
+              <div>
+                <h2 id="history-title">Riwayat latihan</h2>
+                <p class="muted">Sepuluh percobaan terakhir di perangkat ini.</p>
+              </div>
+              <button id="btn-clear-history" class="btn btn-ghost btn-sm" type="button">Hapus riwayat</button>
+            </div>
+            <p id="history-empty" class="empty-state">Belum ada riwayat. Selesaikan satu simulasi untuk melihat hasilnya di sini.</p>
+            <div class="table-wrap">
+              <table id="history-table" class="history-table" hidden>
+                <thead>
+                  <tr>
+                    <th scope="col">Tanggal</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Paket</th>
+                    <th scope="col">TWK</th>
+                    <th scope="col">TPU</th>
+                    <th scope="col">TSI</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Hasil</th>
+                  </tr>
+                </thead>
+                <tbody id="history-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <aside class="home-side">
+          <section class="card start-card" aria-labelledby="start-title">
+            <h2 id="start-title">Mulai simulasi</h2>
+            <p class="muted">Isi nama, pilih paket, lalu setujui tata tertib.</p>
+
+            <div id="bank-error" class="alert alert-error" role="alert" hidden></div>
+
+            <form id="form-start" novalidate>
+              <div class="field">
+                <label for="input-name">Nama peserta</label>
+                <input id="input-name" name="nama" type="text" autocomplete="name" maxlength="60" placeholder="Contoh: Budi Santoso" aria-describedby="name-help name-error" required>
+                <p id="name-help" class="field-help">3–60 karakter; huruf, angka, spasi, titik, apostrof, atau tanda hubung.</p>
+                <p id="name-error" class="field-error" role="alert" hidden></p>
+              </div>
+
+              <fieldset class="field paket-field">
+                <legend>Paket soal</legend>
+                <div class="paket-options">
+                  <label class="paket-option">
+                    <input type="radio" name="paket" value="A" checked>
+                    <span class="paket-card">
+                      <span class="paket-title">Paket A</span>
+                      <span class="paket-desc">151 soal bank, setara dengan Paket B.</span>
+                    </span>
+                  </label>
+                  <label class="paket-option">
+                    <input type="radio" name="paket" value="B">
+                    <span class="paket-card">
+                      <span class="paket-title">Paket B</span>
+                      <span class="paket-desc">Kombinasi soal berbeda, bobot sama.</span>
+                    </span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <button id="btn-start" class="btn btn-primary btn-block" type="submit" disabled>Mulai Ujian</button>
+              <p class="privacy-note">Tanpa akun. Seluruh progres disimpan hanya di peramban Anda.</p>
+            </form>
+          </section>
+
+          <section class="card info-card" aria-labelledby="info-title">
+            <h2 id="info-title">Cara penilaian</h2>
+            <ul class="check-list">
+              <li>Jawaban benar bernilai 5; salah atau kosong bernilai 0.</li>
+              <li>Lulus bila <strong>ketiga</strong> jenis tes memenuhi ambang batas.</li>
+              <li>Nilai total tinggi tidak menyelamatkan jenis tes yang di bawah ambang.</li>
+              <li>Pembahasan lengkap tersedia setelah ujian dikumpulkan.</li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= UJIAN ================= -->
+    <section id="screen-exam" class="screen" aria-labelledby="question-number" hidden>
+      <div class="exam-bar">
+        <div class="exam-who">
+          <span id="exam-name" class="exam-name">Peserta</span>
+          <span id="exam-paket" class="exam-paket">Paket A</span>
+        </div>
+        <div class="timer-box" id="timer-box">
+          <span class="timer-label">Sisa waktu</span>
+          <strong id="timer" class="timer" role="timer">90:00</strong>
+        </div>
+        <div class="exam-progress-box">
+          <strong id="exam-progress">0 / 100</strong>
+          <span>terjawab</span>
+        </div>
+        <button id="btn-nav-toggle" class="btn btn-ghost btn-sm nav-toggle" type="button" aria-expanded="false" aria-controls="exam-nav">Nomor soal</button>
+      </div>
+      <p id="timer-announcer" class="sr-only" aria-live="polite"></p>
+
+      <div id="multitab-banner" class="alert alert-warning multitab" hidden>
+        Sesi ini diperbarui di tab lain. Muat ulang agar jawaban tidak saling menimpa.
+        <button id="btn-reload-tab" class="btn btn-sm btn-dark" type="button">Muat ulang</button>
+      </div>
+
+      <div class="exam-layout" id="exam-layout">
+        <section class="question-panel" aria-labelledby="question-number">
+          <div class="question-meta">
+            <span id="question-jenis" class="badge badge-twk">TWK</span>
+            <span id="question-sub" class="badge badge-sub">Pancasila</span>
+            <span id="question-marked" class="marked-pill" hidden>Ragu-ragu</span>
+          </div>
+          <h2 id="question-number" class="question-number" tabindex="-1">Soal 1 dari 100</h2>
+          <p id="question-text" class="question-text"></p>
+          <div id="options" class="options" role="radiogroup" aria-labelledby="question-text"></div>
+
+          <div class="question-actions">
+            <button id="btn-mark" class="btn btn-warning" type="button" aria-pressed="false">Tandai Ragu-ragu</button>
+            <div class="question-nav">
+              <button id="btn-prev" class="btn btn-ghost" type="button">← Sebelumnya</button>
+              <button id="btn-next" class="btn btn-secondary" type="button">Berikutnya →</button>
+            </div>
+          </div>
+          <div class="question-footer">
+            <p class="keyboard-hint">Pintasan: <kbd>1</kbd>–<kbd>5</kbd> atau <kbd>A</kbd>–<kbd>E</kbd> memilih opsi, <kbd>←</kbd>/<kbd>→</kbd> pindah soal, <kbd>R</kbd> menandai ragu-ragu.</p>
+            <button id="btn-finish" class="btn btn-danger" type="button">Selesai Ujian</button>
+          </div>
+        </section>
+
+        <aside class="exam-nav" id="exam-nav" aria-labelledby="nav-title">
+          <div class="nav-head">
+            <h2 id="nav-title">Navigasi soal</h2>
+            <button id="btn-nav-close" class="btn btn-ghost btn-sm nav-close" type="button">Tutup</button>
+          </div>
+          <p class="nav-summary" id="nav-summary">0 terjawab · 0 ragu-ragu</p>
+          <div id="nav-groups" class="nav-groups"></div>
+          <div class="nav-legend">
+            <span><i class="dot dot-current"></i>Aktif</span>
+            <span><i class="dot dot-answered"></i>Terjawab</span>
+            <span><i class="dot dot-marked"></i>Ragu</span>
+            <span><i class="dot dot-empty"></i>Kosong</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= HASIL ================= -->
+    <section id="screen-result" class="screen result-screen" aria-labelledby="result-status" hidden>
+      <div class="print-head only-print">
+        <strong>Simulasi CAT Ujian Dinas Tingkat I</strong>
+        <span id="print-meta"></span>
+      </div>
+
+      <div id="result-banner" class="result-banner">
+        <div class="result-icon" id="result-icon" aria-hidden="true"></div>
+        <div class="result-copy">
+          <p class="eyebrow" id="result-eyebrow">Hasil simulasi</p>
+          <h1 id="result-status">LULUS</h1>
+          <p id="result-subtitle" class="result-subtitle">Seluruh ambang batas terpenuhi.</p>
+          <p id="result-meta" class="result-meta"></p>
+        </div>
+        <div class="result-total-box">
+          <span>Nilai total</span>
+          <strong id="result-total">0</strong>
+          <span>dari 500</span>
+        </div>
+      </div>
+
+      <div id="score-cards" class="score-cards"></div>
+
+      <p class="result-note" id="result-note">Nilai total yang tinggi tidak menjamin kelulusan bila salah satu jenis tes berada di bawah ambang batas.</p>
+
+      <div class="result-actions print-hide">
+        <button id="btn-print" class="btn btn-secondary" type="button">Cetak Hasil</button>
+        <button id="btn-repeat" class="btn btn-primary" type="button">Ulangi Paket Ini</button>
+        <button id="btn-change" class="btn btn-ghost" type="button">Ganti Paket / Nama</button>
+      </div>
+
+      <section class="card detail-card" aria-labelledby="detail-title">
+        <h2 id="detail-title">Rincian per sub-materi</h2>
+        <div class="table-wrap">
+          <table class="detail-table">
+            <thead>
+              <tr><th scope="col">Jenis</th><th scope="col">Sub-materi</th><th scope="col" class="num">Benar</th><th scope="col" class="num">Jumlah soal</th></tr>
+            </thead>
+            <tbody id="detail-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="discussion-section" aria-labelledby="discussion-title">
+        <div class="discussion-head">
+          <div>
+            <h2 id="discussion-title">Pembahasan</h2>
+            <p class="muted">Periksa jawaban Anda, kunci, uraian, dan sumber setiap soal.</p>
+          </div>
+          <div class="filters" id="filter-buttons" role="group" aria-label="Filter pembahasan">
+            <button type="button" class="filter-btn is-active" data-filter="all">Semua <span id="count-all">100</span></button>
+            <button type="button" class="filter-btn" data-filter="wrong">Salah <span id="count-wrong">0</span></button>
+            <button type="button" class="filter-btn" data-filter="empty">Kosong <span id="count-empty">0</span></button>
+          </div>
+        </div>
+        <div id="discussion-list" class="discussion-list"></div>
+        <p id="discussion-empty" class="empty-state" hidden>Tidak ada soal pada filter ini.</p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><strong>Simulasi CAT Ujian Dinas Tingkat I</strong> — situs latihan tidak resmi, bukan produk BKN atau Kemenimipas. Tidak ada data yang dikirim keluar perangkat.</p>
+  </footer>
+
+  <div id="storage-notice" class="storage-notice print-hide" role="status" hidden>
+    <span>Penyimpanan lokal tidak tersedia. Progres hanya tersimpan selama tab ini terbuka.</span>
+    <button type="button" class="notice-close" aria-label="Tutup pemberitahuan">×</button>
+  </div>
+
+  <!-- Modal Tata Tertib -->
+  <div id="modal-rules" class="modal" hidden>
+    <div class="modal-backdrop" data-close="modal-rules"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="rules-title">
+      <div class="modal-head">
+        <p class="eyebrow">Sebelum mulai</p>
+        <h2 id="rules-title">Tata tertib simulasi</h2>
+      </div>
+      <ul class="rules-list">
+        <li><span class="rule-num">1</span><div><strong>100 soal dalam 90 menit.</strong> Timer berjalan sejak tombol mulai ditekan dan tidak dapat dijeda.</div></li>
+        <li><span class="rule-num">2</span><div><strong>Benar 5 poin, salah atau kosong 0.</strong> Nilai maksimum 500.</div></li>
+        <li><span class="rule-num">3</span><div><strong>Lulus harus memenuhi semua ambang:</strong> TWK ≥ 100, TPU ≥ 75, dan TSI ≥ 35.</div></li>
+        <li><span class="rule-num">4</span><div><strong>Jawaban dapat diubah</strong> kapan saja sebelum ujian dikumpulkan.</div></li>
+        <li><span class="rule-num">5</span><div><strong>Tandai soal ragu-ragu</strong> dengan tombol R atau tombol Tandai Ragu-ragu, lalu kembali sebelum waktu habis.</div></li>
+        <li><span class="rule-num">6</span><div><strong>Waktu habis berarti kumpul otomatis.</strong> Jangan menutup peramban; progres tersimpan di perangkat, tetapi timer tetap berjalan.</div></li>
+      </ul>
+      <div class="modal-actions">
+        <button id="btn-rules-cancel" class="btn btn-ghost" type="button">Batal</button>
+        <button id="btn-rules-agree" class="btn btn-primary" type="button">Setuju dan Mulai</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal konfirmasi umum -->
+  <div id="modal-confirm" class="modal" hidden>
+    <div class="modal-backdrop" data-close="modal-confirm"></div>
+    <div class="modal-card modal-card-sm" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-message">
+      <h2 id="confirm-title">Konfirmasi</h2>
+      <p id="confirm-message"></p>
+      <div class="modal-actions">
+        <button id="btn-confirm-cancel" class="btn btn-ghost" type="button">Batal</button>
+        <button id="btn-confirm-ok" class="btn btn-primary" type="button">Ya</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/engine.js"></script>
+  <script src="assets/js/data-paket-a.js"></script>
+  <script src="assets/js/data-paket-b.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
